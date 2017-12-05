@@ -30,7 +30,7 @@
         "legacyAwsBehavior": true,
         "details": {
             "awsEndpoint": "s3.amazonaws.com",
-            "bucketName": "multitester555",
+            "bucketName": "dev-zenko",
             "bucketMatch": true,
             "credentialsProfile": "default",
             "serverSideEncryption": true
@@ -41,7 +41,7 @@
         "legacyAwsBehavior": true,
         "details": {
             "awsEndpoint": "s3.amazonaws.com",
-            "bucketName": "multitester555",
+            "bucketName": "dev-zenko",
             "bucketMatch": true,
             "credentialsProfile": "default"
         }
@@ -51,7 +51,7 @@
         "legacyAwsBehavior": true,
         "details": {
             "awsEndpoint": "s3.amazonaws.com",
-            "bucketName": "multitester555",
+            "bucketName": "dev-zenko",
             "bucketMatch": false,
             "credentialsProfile": "default"
         }
@@ -61,18 +61,18 @@
         "legacyAwsBehavior": true,
         "details": {
             "awsEndpoint": "s3.amazonaws.com",
-            "bucketName": "multitester222",
+            "bucketName": "dev-zenko",
             "bucketMatch": true,
-            "credentialsProfile": "default_2"
+            "credentialsProfile": "default"
         }
     },
     "azurebackend": {
         "type": "azure",
         "legacyAwsBehavior": true,
         "details": {
-            "azureStorageEndpoint": "https://fakeaccountname.blob.core.fake.net/",
-            "azureStorageAccountName": "fakeaccountname",
-            "azureStorageAccessKey": "Fake00Key001",
+            "azureStorageEndpoint": "https://devzenko.blob.core.windows.net/",
+            "azureStorageAccountName": "devzenko",
+            "azureStorageAccessKey": "rA6cX4epn6xtZLv6jPhdAMoXQQoax1EtIL0dj6iGcLXjtyxvn0WLv51NvMaIhDJOcsvzpbh5CuCK3T6bOBB2TA==",
             "bucketMatch": true,
             "azureContainerName": "s3test"
         }
@@ -81,20 +81,20 @@
         "type": "azure",
         "legacyAwsBehavior": true,
         "details": {
-            "azureStorageEndpoint": "https://fakeaccountname2.blob.core.fake.net/",
-            "azureStorageAccountName": "fakeaccountname2",
-            "azureStorageAccessKey": "Fake00Key002",
+            "azureStorageEndpoint": "https://devzenko.blob.core.windows.net/",
+            "azureStorageAccountName": "devzenko",
+            "azureStorageAccessKey": "rA6cX4epn6xtZLv6jPhdAMoXQQoax1EtIL0dj6iGcLXjtyxvn0WLv51NvMaIhDJOcsvzpbh5CuCK3T6bOBB2TA==",
             "bucketMatch": true,
-            "azureContainerName": "s3test2"
+            "azureContainerName": "s3test"
         }
     },
     "azurebackendmismatch": {
         "type": "azure",
         "legacyAwsBehavior": true,
         "details": {
-            "azureStorageEndpoint": "https://fakeaccountname.blob.core.fake.net/",
-            "azureStorageAccountName": "fakeaccountname",
-            "azureStorageAccessKey": "Fake00Key001",
+            "azureStorageEndpoint": "https://devzenko.blob.core.windows.net/",
+            "azureStorageAccountName": "devzenko",
+            "azureStorageAccessKey": "rA6cX4epn6xtZLv6jPhdAMoXQQoax1EtIL0dj6iGcLXjtyxvn0WLv51NvMaIhDJOcsvzpbh5CuCK3T6bOBB2TA==",
             "bucketMatch": false,
             "azureContainerName": "s3test"
         }
@@ -103,11 +103,42 @@
         "type": "azure",
         "legacyAwsBehavior": true,
         "details": {
-            "azureStorageEndpoint": "https://fakeaccountname.blob.core.fake.net/",
-            "azureStorageAccountName": "fakeaccountname",
-            "azureStorageAccessKey": "Fake00Key123",
+            "azureStorageEndpoint": "https://devzenko.blob.core.windows.net/",
+            "azureStorageAccountName": "devzenko",
+            "azureStorageAccessKey": "rA6cX4epn6xtZLv6jPhdAMoXQQoax1EtIL0dj6iGcLXjtyxvn0WLv51NvMaIhDJOcsvzpbh5CuCK3T6bOBB2TA==",
             "bucketMatch": true,
             "azureContainerName": "s3createbucketonfly"
+        }
+    },
+    "gcpbackendencryption": {
+        "type": "gcp",
+        "legacyAwsBehavior": true,
+        "details": {
+            "awsEndpoint": "storage.googleapis.com",
+            "bucketName": "multitester555",
+            "bucketMatch": true,
+            "credentialsProfile": "google",
+            "serverSideEncryption": true
+        }
+    },
+    "gcpbackend": {
+        "type": "gcp",
+        "legacyAwsBehavior": true,
+        "details": {
+            "awsEndpoint": "storage.googleapis.com",
+            "bucketName": "multitester555",
+            "bucketMatch": true,
+            "credentialsProfile": "google"
+        }
+    },
+    "gcpbackendmismatch": {
+        "type": "gcp",
+        "legacyAwsBehavior": true,
+        "details": {
+            "awsEndpoint": "storage.googleapis.com",
+            "bucketName": "multitester555",
+            "bucketMatch": false,
+            "credentialsProfile": "google"
         }
     }
 }

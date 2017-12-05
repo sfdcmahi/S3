@@ -60,6 +60,12 @@ const constants = {
     //      RESTBucketGET.html#RESTBucketGET-requests
     listingHardLimit: 1000,
 
+    // AWS caps PartNumbers at 10000
+    awsMaxParts: 10000,
+
+    // GCP tmp PartNumbers cap: 1024
+    gcpMaxParts: 1024,
+
     // AWS sets a minimum size limit for parts except for the last part.
     // http://docs.aws.amazon.com/AmazonS3/latest/API/mpUploadComplete.html
     minimumAllowedPartSize: 5242880,

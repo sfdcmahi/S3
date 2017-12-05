@@ -1,82 +1,154 @@
+
 {
     "us-east-1": {
         "type": "file",
         "legacyAwsBehavior": true,
         "details": {}
     },
-    "us-east-2": {
+    "scality-internal-file": {
         "type": "file",
         "legacyAwsBehavior": false,
         "details": {}
     },
-    "us-west-1": {
+    "dataFile": {
         "type": "file",
         "legacyAwsBehavior": false,
         "details": {}
     },
-    "us-west-2": {
-        "type": "file",
+    "scality-internal-mem": {
+        "type": "mem",
         "legacyAwsBehavior": false,
         "details": {}
     },
-    "ca-central-1": {
-        "type": "file",
+    "scality-us-west-1": {
+        "type": "mem",
         "legacyAwsBehavior": false,
         "details": {}
     },
-    "cn-north-1": {
-        "type": "file",
-        "legacyAwsBehavior": false,
-        "details": {}
+    "awsbackendencryption": {
+        "type": "aws_s3",
+        "legacyAwsBehavior": true,
+        "details": {
+            "awsEndpoint": "s3.amazonaws.com",
+            "bucketName": "dev-zenko",
+            "bucketMatch": true,
+            "credentialsProfile": "default",
+            "serverSideEncryption": true
+        }
     },
-    "ap-south-1": {
-        "type": "file",
-        "legacyAwsBehavior": false,
-        "details": {}
+    "awsbackend": {
+        "type": "aws_s3",
+        "legacyAwsBehavior": true,
+        "details": {
+            "awsEndpoint": "s3.amazonaws.com",
+            "bucketName": "dev-zenko",
+            "bucketMatch": true,
+            "credentialsProfile": "default"
+        }
     },
-    "ap-northeast-1": {
-        "type": "file",
-        "legacyAwsBehavior": false,
-        "details": {}
+    "awsbackendmismatch": {
+        "type": "aws_s3",
+        "legacyAwsBehavior": true,
+        "details": {
+            "awsEndpoint": "s3.amazonaws.com",
+            "bucketName": "dev-zenko",
+            "bucketMatch": false,
+            "credentialsProfile": "default"
+        }
     },
-    "ap-northeast-2": {
-        "type": "file",
-        "legacyAwsBehavior": false,
-        "details": {}
+    "awsbackend2": {
+        "type": "aws_s3",
+        "legacyAwsBehavior": true,
+        "details": {
+            "awsEndpoint": "s3.amazonaws.com",
+            "bucketName": "dev-zenko",
+            "bucketMatch": true,
+            "credentialsProfile": "default"
+        }
     },
-    "ap-southeast-1": {
-        "type": "file",
-        "legacyAwsBehavior": false,
-        "details": {}
+    "azurebackend": {
+        "type": "azure",
+        "legacyAwsBehavior": true,
+        "details": {
+            "azureStorageEndpoint": "https://devzenko.blob.core.windows.net/",
+            "azureStorageAccountName": "devzenko",
+            "azureStorageAccessKey": "rA6cX4epn6xtZLv6jPhdAMoXQQoax1EtIL0dj6iGcLXjtyxvn0WLv51NvMaIhDJOcsvzpbh5CuCK3T6bOBB2TA==",
+            "bucketMatch": true,
+            "azureContainerName": "s3test"
+        }
     },
-    "ap-southeast-2": {
-        "type": "file",
-        "legacyAwsBehavior": false,
-        "details": {}
+    "azurebackend2": {
+        "type": "azure",
+        "legacyAwsBehavior": true,
+        "details": {
+            "azureStorageEndpoint": "https://devzenko.blob.core.windows.net/",
+            "azureStorageAccountName": "devzenko",
+            "azureStorageAccessKey": "rA6cX4epn6xtZLv6jPhdAMoXQQoax1EtIL0dj6iGcLXjtyxvn0WLv51NvMaIhDJOcsvzpbh5CuCK3T6bOBB2TA==",
+            "bucketMatch": true,
+            "azureContainerName": "s3test"
+        }
     },
-    "eu-central-1": {
-        "type": "file",
-        "legacyAwsBehavior": false,
-        "details": {}
+    "azurebackendmismatch": {
+        "type": "azure",
+        "legacyAwsBehavior": true,
+        "details": {
+            "azureStorageEndpoint": "https://devzenko.blob.core.windows.net/",
+            "azureStorageAccountName": "devzenko",
+            "azureStorageAccessKey": "rA6cX4epn6xtZLv6jPhdAMoXQQoax1EtIL0dj6iGcLXjtyxvn0WLv51NvMaIhDJOcsvzpbh5CuCK3T6bOBB2TA==",
+            "bucketMatch": false,
+            "azureContainerName": "s3test"
+        }
     },
-    "eu-west-1": {
-        "type": "file",
-        "legacyAwsBehavior": false,
-        "details": {}
+    "azurenonexistcontainer": {
+        "type": "azure",
+        "legacyAwsBehavior": true,
+        "details": {
+            "azureStorageEndpoint": "https://devzenko.blob.core.windows.net/",
+            "azureStorageAccountName": "devzenko",
+            "azureStorageAccessKey": "rA6cX4epn6xtZLv6jPhdAMoXQQoax1EtIL0dj6iGcLXjtyxvn0WLv51NvMaIhDJOcsvzpbh5CuCK3T6bOBB2TA==",
+            "bucketMatch": true,
+            "azureContainerName": "s3createbucketonfly"
+        }
     },
-    "eu-west-2": {
-        "type": "file",
-        "legacyAwsBehavior": false,
-        "details": {}
+    "gcpbackendencryption": {
+        "type": "gcp",
+        "legacyAwsBehavior": true,
+        "details": {
+            "awsEndpoint": "storage.googleapis.com",
+            "bucketName": "zenko-bucket-555",
+            "bucketMatch": true,
+            "credentialsProfile": "google",
+            "serverSideEncryption": true
+        }
     },
-    "EU": {
-        "type": "file",
-        "legacyAwsBehavior": false,
-        "details": {}
+    "gcpbackend": {
+        "type": "gcp",
+        "legacyAwsBehavior": true,
+        "details": {
+            "awsEndpoint": "storage.googleapis.com",
+            "bucketName": "zenko-bucket-555",
+            "bucketMatch": true,
+            "credentialsProfile": "google"
+        }
     },
-    "sa-east-1": {
-        "type": "file",
-        "legacyAwsBehavior": false,
-        "details": {}
+    "gcpbackend2": {
+        "type": "gcp",
+        "legacyAwsBehavior": true,
+        "details": {
+            "awsEndpoint": "storage.googleapis.com",
+            "bucketName": "zenko-bucket-222",
+            "bucketMatch": true,
+            "credentialsProfile": "google"
+        }
+    },
+    "gcpbackendmismatch": {
+        "type": "gcp",
+        "legacyAwsBehavior": true,
+        "details": {
+            "awsEndpoint": "storage.googleapis.com",
+            "bucketName": "zenko-bucket-555",
+            "bucketMatch": false,
+            "credentialsProfile": "google"
+        }
     }
 }
