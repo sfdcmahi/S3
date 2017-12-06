@@ -8,21 +8,39 @@ const {
     fileLocation,
     awsLocation,
     awsLocationMismatch,
+    gcpLocation,
+    gcpLocationMismatch,
+    withGCP,
 } = require('../utils');
 
 const bucket = 'buckettestmultiplebackendget';
 const memObject = `memobject-${Date.now()}`;
 const fileObject = `fileobject-${Date.now()}`;
 const awsObject = `awsobject-${Date.now()}`;
+const gcpObject = `gcpobject-${Date.now()}`;
 const emptyObject = `emptyObject-${Date.now()}`;
 const emptyAwsObject = `emptyObject-${Date.now()}`;
-const bigObject = `bigObject-${Date.now()}`;
-const mismatchObject = `mismatch-${Date.now()}`;
+const emptyGcpObject = `emptyObject-${Date.now()}`;
+const bigAwsObject = `bigObject-${Date.now()}`;
+const bigGcpObject = `bigObject-${Date.now()}`;
+const mismatchAwsObject = `mismatch-${Date.now()}`;
+const mismatchGcpObject = `mismatch-${Date.now()}`;
 const body = Buffer.from('I am a body', 'utf8');
 const bigBody = Buffer.alloc(10485760);
 const correctMD5 = 'be747eb4b75517bf6b3cf7c5fbb62f3a';
 const emptyMD5 = 'd41d8cd98f00b204e9800998ecf8427e';
 const bigMD5 = 'f1c9645dbc14efddc7d8a322685f26eb';
+const gcpMPUImplemented = false;
+const s3MismatchObject = {
+    AWS: {
+        s3LocationMismatch: awsLocationMismatch,
+        s3ObjectMismatch: mismatchAwsObject,
+    },
+    GCP: {
+        s3LocationMismatch: gcpLocationMismatch,
+        s3ObjectMismatch: mismatchGcpObject,
+    },
+};
 
 describe('Multiple backend get object', function testSuite() {
     this.timeout(30000);
@@ -177,7 +195,7 @@ describe('Multiple backend get object', function testSuite() {
         });
 
         describeSkipIfNotMultiple('with objects in all available backends ' +
-            '(mem/file/AWS)', () => {
+            '(mem/file/AWS/GCP)', () => {
             before(() => {
                 process.stdout.write('Putting object to mem\n');
                 return s3.putObjectAsync({ Bucket: bucket, Key: memObject,
@@ -215,9 +233,33 @@ describe('Multiple backend get object', function testSuite() {
                 .then(() => {
                     process.stdout.write('Putting large object to AWS\n');
                     return s3.putObjectAsync({ Bucket: bucket,
-                        Key: bigObject, Body: bigBody,
+                        Key: bigAwsObject, Body: bigBody,
                         Metadata: {
                             'scal-location-constraint': awsLocation } });
+                })
+                .then(() => {
+                    process.stdout.write('Putting object to GCP\n');
+                    return s3.putObjectAsync({ Bucket: bucket, Key: gcpObject,
+                        Body: body,
+                        Metadata: {
+                            'scal-location-constraint': gcpLocation } });
+                })
+                .then(() => {
+                    process.stdout.write('Putting 0-byte object to GCP\n');
+                    return s3.putObjectAsync({ Bucket: bucket,
+                        Key: emptyGcpObject,
+                        Metadata: {
+                            'scal-location-constraint': gcpLocation } });
+                })
+                .then(() => {
+                    if (gcpMPUImplemented) {
+                        process.stdout.write('Putting large object to GCP\n');
+                        return s3.putObjectAsync({ Bucket: bucket,
+                            Key: bigGcpObject, Body: bigBody,
+                            Metadata: {
+                                'scal-location-constraint': gcpLocation } });
+                    }
+                    return Promise.resolve(true);
                 })
                 .catch(err => {
                     process.stdout.write(`Error putting objects: ${err}\n`);
@@ -250,6 +292,15 @@ describe('Multiple backend get object', function testSuite() {
                     done();
                 });
             });
+            it('should get a 0-byte object from GCP', done => {
+                s3.getObject({ Bucket: bucket, Key: emptyGcpObject },
+                (err, res) => {
+                    assert.equal(err, null, 'Expected success but got error ' +
+                        `error ${err}`);
+                    assert.strictEqual(res.ETag, `"${emptyMD5}"`);
+                    done();
+                });
+            });
             it('should get an object from file', done => {
                 s3.getObject({ Bucket: bucket, Key: fileObject },
                     (err, res) => {
@@ -268,8 +319,26 @@ describe('Multiple backend get object', function testSuite() {
                         done();
                     });
             });
+            it('should get an object from GCP', done => {
+                s3.getObject({ Bucket: bucket, Key: gcpObject },
+                    (err, res) => {
+                        assert.equal(err, null, 'Expected success but got ' +
+                            `error ${err}`);
+                        assert.strictEqual(res.ETag, `"${correctMD5}"`);
+                        done();
+                    });
+            });
             it('should get a large object from AWS', done => {
-                s3.getObject({ Bucket: bucket, Key: bigObject },
+                s3.getObject({ Bucket: bucket, Key: bigAwsObject },
+                    (err, res) => {
+                        assert.equal(err, null, 'Expected success but got ' +
+                            `error ${err}`);
+                        assert.strictEqual(res.ETag, `"${bigMD5}"`);
+                        done();
+                    });
+            });
+            it.skip('should get a large object from GCP', done => {
+                s3.getObject({ Bucket: bucket, Key: bigGcpObject },
                     (err, res) => {
                         assert.equal(err, null, 'Expected success but got ' +
                             `error ${err}`);
@@ -279,24 +348,28 @@ describe('Multiple backend get object', function testSuite() {
             });
         });
 
-        describeSkipIfNotMultiple('with bucketMatch set to false', () => {
+        describeSkipIfNotMultiple('with bucketMatch set to false',
+        withGCP(s3Type => {
+            const { s3LocationMismatch, s3ObjectMismatch } = s3Type === 'GCP' ?
+                s3MismatchObject.GCP : s3MismatchObject.AWS;
             beforeEach(done => {
-                s3.putObject({ Bucket: bucket, Key: mismatchObject, Body: body,
-                Metadata: { 'scal-location-constraint': awsLocationMismatch } },
+                s3.putObject(
+                    { Bucket: bucket, Key: s3ObjectMismatch, Body: body,
+                Metadata: { 'scal-location-constraint': s3LocationMismatch } },
                 err => {
                     assert.equal(err, null, `Err putting object: ${err}`);
                     done();
                 });
             });
 
-            it('should get an object from AWS', done => {
-                s3.getObject({ Bucket: bucket, Key: mismatchObject },
+            it(`should get an object from ${s3Type}`, done => {
+                s3.getObject({ Bucket: bucket, Key: s3ObjectMismatch },
                 (err, res) => {
                     assert.equal(err, null, `Error getting object: ${err}`);
                     assert.strictEqual(res.ETag, `"${correctMD5}"`);
                     done();
                 });
             });
-        });
+        }));
     });
 });
