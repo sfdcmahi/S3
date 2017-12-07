@@ -279,10 +279,6 @@
                         "location": "header",
                         "locationName": "x-goog-website-redirect-location"
                     },
-                    "ServerSideEncryption": {
-                        "location": "header",
-                        "locationName": "x-goog-server-side-encryption"
-                    },
                     "Metadata": {
                         "shape": "MetadataShape",
                         "location": "headers",
@@ -529,11 +525,11 @@
                         "location": "header",
                         "locationName": "x-goog-hash"
                     },
-                    "CopySourceVersionId": {
+                    "VersionId": {
                         "location": "header",
                         "locationName": "x-goog-generation"
                     },
-                    "CopySourceMetaVersionId": {
+                    "MetaVersionId": {
                         "location": "header",
                         "locationName": "x-goog-metageneration"
                     }
@@ -573,6 +569,89 @@
                     "VersionId": {
                         "location": "header",
                         "locationName": "x-goog-generation"
+                    }
+                }
+            }
+        },
+        "GetObjectAcl": {
+            "http": {
+                "method": "GET",
+                "requestUri": "/{Bucket}/{Key+}?acl"
+            },
+            "input": {
+                "type": "structure",
+                "required": [
+                    "Bucket",
+                    "Key"
+                ],
+                "members": {
+                    "Bucket": {
+                        "location": "uri",
+                        "locationName": "Bucket"
+                    },
+                    "Key": {
+                        "location": "uri",
+                        "locationName": "Key"
+                    },
+                    "VersionId": {
+                        "location": "querystring",
+                        "locationName": "generation"
+                    }
+                }
+            },
+            "output": {
+                "shape": "ACLSape"
+            }
+        },
+        "PutObjectAcl": {
+            "http": {
+                "method": "PUT",
+                "requestUri": "/{Bucket}/{Key+}?acl"
+            },
+            "input": {
+                "type": "structure",
+                "required": [
+                    "Bucket",
+                    "Key"
+                ],
+                "members": {
+                    "ACL": {
+                        "location": "header",
+                        "locationName": "x-goog-acl"
+                    },
+                    "AccessControlPolicy": {
+                        "shape": "ACLShape",
+                        "locationName": "AccessControlList"
+                    },
+                    "Bucket": {
+                        "location": "uri",
+                        "locationName": "Bucket"
+                    },
+                    "ContentMD5": {
+                        "location": "header",
+                        "locationName": "Content-MD5"
+                    },
+                    "Key": {
+                        "location": "uri",
+                        "locationName": "Key"
+                    },
+                    "VersionId": {
+                        "location": "querystring",
+                        "locationName": "generation"
+                    }
+                },
+                "payload": "AccessControlPolicy"
+            },
+            "output": {
+                "type": "structure",
+                "members": {
+                    "ContentLength": {
+                        "location": "header",
+                        "locationName": "Content-Length"
+                    },
+                    "ContentType": {
+                        "location": "header",
+                        "locationName": "Content-Type"
                     }
                 }
             }
@@ -649,6 +728,54 @@
             "type": "map",
             "key": {},
             "value": {}
+        },
+        "OwnerShape": {
+            "type": "structure",
+            "members": {
+                "ID": {},
+                "DisplayName": {
+                    "locationName": "Name"
+                }
+            }
+        },
+        "ACLShape": {
+            "locationName": "AccessControlList",
+            "type": "structure",
+            "members": {
+                "Owner": {
+                    "shape": "OwnerShape"
+                },
+                "Grants": {
+                    "locationName": "Entries",
+                    "type": "list",
+                    "member": {
+                        "locationName": "Entry",
+                        "type": "structure",
+                        "required": [
+                            "Type"
+                        ],
+                        "members": {
+                            "Grantee": {
+                                "locationName": "Scope",
+                                "type": "structure",
+                                "members": {
+                                    "DisplayName": {
+                                        "locationName": "Name"
+                                    },
+                                    "ID": {},
+                                    "EmailAddress": {},
+                                    "Doamin": {},
+                                    "Type": {
+                                        "locationName": "type",
+                                        "xmlAttribute": true
+                                    }
+                                }
+                            },
+                            "Permission": {}
+                        }
+                    }
+                }
+            }
         },
         "VersionsShape": {
             "locationName": "ListBucketResult",
