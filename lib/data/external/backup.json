@@ -212,10 +212,6 @@
                         "streaming": true,
                         "type": "blob"
                     },
-                    "ComponentCount": {
-                        "location": "header",
-                        "locationName": "x-goog-component-count"
-                    },
                     "AcceptRanges": {
                         "location": "header",
                         "locationName": "accept-ranges"
@@ -278,6 +274,14 @@
                         "location": "header",
                         "locationName": "Expires",
                         "type": "timestamp"
+                    },
+                    "WebsiteRedirectLocation": {
+                        "location": "header",
+                        "locationName": "x-goog-website-redirect-location"
+                    },
+                    "ServerSideEncryption": {
+                        "location": "header",
+                        "locationName": "x-goog-server-side-encryption"
                     },
                     "Metadata": {
                         "shape": "MetadataShape",
@@ -357,10 +361,6 @@
                         "locationName": "Date",
                         "type": "timestamp"
                     }, 
-                    "ComponentCount": {
-                        "location": "header",
-                        "locationName": "x-goog-component-count"
-                    },
                     "AcceptRanges": {
                         "location": "header",
                         "locationName": "accept-ranges"
@@ -529,11 +529,11 @@
                         "location": "header",
                         "locationName": "x-goog-hash"
                     },
-                    "VersionId": {
+                    "CopySourceVersionId": {
                         "location": "header",
                         "locationName": "x-goog-generation"
                     },
-                    "MetaVersionId": {
+                    "CopySourceMetaVersionId": {
                         "location": "header",
                         "locationName": "x-goog-metageneration"
                     }
@@ -926,7 +926,7 @@
                 "NextVersionIdMarker": {
                     "locationName": "NextGenerationMarker"
                 },
-                "Parts": {
+                "Contents": {
                     "locationName": "Contents",
                     "type": "list",
                     "member": {
