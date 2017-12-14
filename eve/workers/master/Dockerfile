@@ -1,4 +1,4 @@
-FROM scality/nodesvc-base
+FROM node:6-slim
 
 #
 # Install apt packages needed by the buildchain
@@ -7,8 +7,6 @@ FROM scality/nodesvc-base
 COPY s3_packages.list buildbot_worker_packages.list /tmp/
 RUN apt-get update -q \
     && apt-get install -qy software-properties-common python-software-properties \
-    && add-apt-repository ppa:ubuntu-toolchain-r/test \
-    && apt-add-repository ppa:brightbox/ruby-ng \
     && apt-get update -q \
     && cat /tmp/*_packages.list | xargs apt-get install -qy \
     && pip install pip==9.0.1 \
