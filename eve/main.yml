@@ -96,7 +96,9 @@ stages:
     worker: *master-worker
     steps:
       - Git: *clone
-      - ShellCommand: *node_modules
+      # - ShellCommand: *node_modules
+      - ShellCommand:
+          command: npm install
       - ShellCommandWithSecrets: *aws_credentials
       - ShellCommand:
           name: run multi-backends unit tests
